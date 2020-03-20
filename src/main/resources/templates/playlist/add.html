@@ -1,0 +1,55 @@
+<!DOCType html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpotMusic</title>
+    <link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+    <style>
+        .footer p {
+            text-align:center;
+        }
+    </style>
+
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1>SpotMusic</h1>
+    </div>
+
+    <h4>
+        Nova playlist
+    </h4>
+
+        <!-- ao renderizar essa pagina, se o id for 0, estará criando uma playlist, o method é post -->
+        <!-- caso o id seja != de 0, quer dizer que estamos editando, então o método é put -->
+        <form th:action="@{/playlists/salvar}" th:method="${playlist.id} == 0 ? post : put" th:object="${playlist}">
+            <div class="row">
+                <input id="id" type="hidden" th:field="*{id}" />
+                <div class="form-group col-md-4">
+                    <label for="nome">Nome:</label>
+                    <input class="form-control" id="nome" type="text" th:field="*{nome}" />
+                    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                </div>
+
+                <div class="form-group col-md-8">
+                    <label for="descricao">Descrição:</label>
+                    <input class="form-control" id="descricao" type="text" th:field="*{descricao}" />
+                    <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
+        </form>
+
+            <hr/>
+
+            <a class="btn btn-light" th:href="@{/playlists/listar}">Voltar</a>
+
+            <hr/>
+        <footer class="footer">
+        <p>&copy;2020 DevMedia</p>
+        </footer>
+    </div>
+</body>
+</html>

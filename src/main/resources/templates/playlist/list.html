@@ -1,0 +1,74 @@
+<!DOCType html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>SpotMusic</title>
+        <link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    </head>
+    <style>
+        .footer p {
+            text-align:center;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1>SpotMusic</h1>
+            </div>
+
+            <div>
+                <a class="btn btn-primary" th:href="@{/playlists/cadastro}">Nova playlist</a>
+            </div>
+
+            <hr/>
+            <!-- esse atributo playlists é o do PlaylistController, adicionado pelo model -->
+            <div th:if="${playlists != null}">
+                <h4>
+                    Playlists
+                </h4>
+
+                <div th:if="${mensagem != null}" >
+                    <div class="alert alert-info" role="alert">
+                        <span th:text="${mensagem}">mensagem</span>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Ação</th>
+                    </tr>
+                    </thead>
+                    <!-- SE TIVER PLAYLIST, ESSA TR É RENDERIZADA -->
+                    <tr th:each="playlist : ${playlists}">
+                        <td>
+                            <a th:text="${playlist.nome}" th:href="@{/playlists/{id}/musicas/listar(id=${playlist.id})}">nome</a>
+                        </td>
+                        <td th:text="${playlist.descricao}">descricao</td>
+                        <td>
+                            <a class="btn btn-sm btn-info" th:href="@{/playlists/{id}/atualizar(id=${playlist.id})}">Editar</a>
+                            <a class="btn btn-sm btn-danger" th:href="@{/playlists/{id}/remover(id=${playlist.id})}">Excluir</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(playlists)}">
+                <div class="alert alert-info" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    0 playlists cadastradas!
+                    <!--SE NÃO TIVER PLAYLIST CADASTRADA, ESSE SPAN APARECE -->
+                </div>
+            </div>
+            <hr/>
+
+            <a class="btn btn-light" href="/home">Voltar</a>
+
+            <hr/>
+            <footer class="footer">
+                <p>&copy;2020 DevMedia</p>
+            </footer>
+        </div>
+    </body>
+</html>
